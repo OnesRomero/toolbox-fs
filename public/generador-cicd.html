@@ -398,6 +398,7 @@ API_KEY=tu_clave_super_secreta</code></pre>
     build: .
     container_name: <span class="dyn-proj text-yellow-300 font-bold bg-gray-700 px-1 rounded">${proj}</span> # <- Usar en NPM
     restart: unless-stopped
+    # 👇 En caso de que uses variables de entorno van aqui
     env_file:
       - .env # <-- ¡No olvides esto!
     # 👇 Asegúrate de agregar estas líneas de red en el servicio
