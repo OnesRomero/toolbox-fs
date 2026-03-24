@@ -20,17 +20,14 @@
 </head>
 <body class="bg-gray-50 text-gray-800 h-screen flex flex-col overflow-hidden">
 
-    <!-- Header FoxShortcut -->
     <header class="bg-white shadow-sm z-10">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center">
-                <!-- Fallback a SVG si no encuentra logo.svg en esta ruta -->
                 <img src="logo.svg" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" class="h-10 w-auto mr-3">
                 <svg style="display:none;" class="h-8 w-8 text-orange-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                 <span class="text-xl font-bold text-gray-700">FoxShortcut <span class="hidden sm:inline text-gray-400 font-normal ml-1">|</span> <span class="text-orange-500 hidden sm:inline ml-1">CI/CD Gen</span></span>
             </div>
             
-            <!-- Botón Home -->
             <a href="/" class="text-sm font-bold bg-orange-500 text-white hover:bg-orange-600 px-5 py-2 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                 Inicio
@@ -38,10 +35,8 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <div class="flex-1 container mx-auto flex flex-col md:flex-row overflow-hidden">
         
-        <!-- Panel Izquierdo: Formulario -->
         <aside class="w-full md:w-1/3 lg:w-1/4 bg-white border-r border-gray-200 p-6 overflow-y-auto shadow-sm z-0">
             <h2 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2">Configuración del Proyecto</h2>
             
@@ -87,7 +82,6 @@
             </div>
         </aside>
 
-        <!-- Panel Derecho: Guía Generada -->
         <main class="w-full md:w-2/3 lg:w-3/4 bg-gray-50 p-6 md:p-10 overflow-y-auto">
             <div class="max-w-4xl mx-auto space-y-8 pb-20">
                 
@@ -96,7 +90,6 @@
                     <p class="text-gray-600">Sigue estos pasos para conectar este nuevo proyecto al flujo automatizado de Jenkins.</p>
                 </div>
 
-                <!-- Paso 1 -->
                 <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                         <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
@@ -131,7 +124,6 @@
                     </div>
                 </section>
 
-                <!-- Paso 2 -->
                 <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                         <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
@@ -152,22 +144,56 @@
                     </div>
                 </section>
 
-                <!-- Paso 3 -->
                 <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                         <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
                         Preparar el Servidor Ubuntu (Solo primera vez)
                     </h3>
-                    <p class="mb-4 text-gray-600">Ingresa a tu servidor por SSH. Vamos a clonar el proyecto usando el alias <strong><span class="dyn-alias text-orange-600 font-bold uppercase"></span></strong> y a crear el archivo <code class="bg-gray-100 px-1 rounded">.env</code> de forma manual y segura.</p>
+                    <p class="mb-5 text-gray-600">Vamos a conectarnos al servidor y a clonar el proyecto usando el alias <strong><span class="dyn-alias text-orange-600 font-bold uppercase"></span></strong> para finalmente crear el archivo <code class="bg-gray-100 px-1 rounded">.env</code> de forma segura.</p>
                     
-                    <div class="relative group">
-                        <button onclick="copyCode('code-clone', this)" class="absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copiar
-                        </button>
-                        <pre class="bg-gray-800 text-purple-300 p-4 rounded-lg overflow-x-auto text-sm leading-relaxed"><code id="code-clone"></code></pre>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm font-bold text-gray-700 mb-1">1. Conéctate al servidor por SSH</p>
+                            <div class="relative group">
+                                <button onclick="copyCode('code-ssh', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
+                                <pre class="bg-gray-800 text-purple-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-ssh"></code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-bold text-gray-700 mb-1">2. Entra a la ruta base</p>
+                            <div class="relative group">
+                                <button onclick="copyCode('code-cd-base', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
+                                <pre class="bg-gray-800 text-blue-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-cd-base"></code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-bold text-gray-700 mb-1">3. Clona el proyecto</p>
+                            <div class="relative group">
+                                <button onclick="copyCode('code-git-clone', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
+                                <pre class="bg-gray-800 text-green-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-git-clone"></code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-bold text-gray-700 mb-1">4. Entra a la carpeta del proyecto</p>
+                            <div class="relative group">
+                                <button onclick="copyCode('code-cd-proj', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
+                                <pre class="bg-gray-800 text-yellow-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-cd-proj"></code></pre>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-bold text-gray-700 mb-1">5. Crea el archivo de variables seguras</p>
+                            <div class="relative group">
+                                <button onclick="copyCode('code-nano', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
+                                <pre class="bg-gray-800 text-gray-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-nano">nano .env</code></pre>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="mt-4 bg-orange-50 border-l-4 border-orange-500 p-4 rounded">
+                    <div class="mt-6 bg-orange-50 border-l-4 border-orange-500 p-4 rounded">
                         <p class="text-sm text-gray-800 font-bold mb-1">📝 Instrucciones para el editor Nano:</p>
                         <p class="text-sm text-gray-600 mb-2">Una vez que se abra el editor, pega todas tus credenciales (las mismas que usa tu app). Por ejemplo:</p>
                         <pre class="bg-white p-2 border border-gray-200 rounded text-xs text-gray-600 mb-2"><code>PORT=3000
@@ -177,7 +203,6 @@ API_KEY=tu_clave_super_secreta</code></pre>
                     </div>
                 </section>
 
-                <!-- Paso 4 -->
                 <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                         <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
@@ -218,7 +243,6 @@ API_KEY=tu_clave_super_secreta</code></pre>
                     </div>
                 </section>
 
-                <!-- Paso 5 -->
                 <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                         <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
@@ -236,7 +260,6 @@ API_KEY=tu_clave_super_secreta</code></pre>
         </main>
     </div>
 
-    <!-- Script de lógica -->
     <script>
         function handleAliasChange() {
             const alias = document.getElementById('alias').value;
@@ -282,18 +305,11 @@ API_KEY=tu_clave_super_secreta</code></pre>
             document.getElementById('code-jenkinsfile').textContent = jenkinsfileCode;
             document.getElementById('code-webhook').textContent = `${jenkins}/github-webhook/`;
 
-            const cloneCode = `# 1. Entrar a la ruta base
-cd ${path}
-
-# 2. Clonar el proyecto con el alias correcto
-git clone git@${alias}:${user}/${proj}.git
-
-# 3. Entrar a la carpeta
-cd ${proj}
-
-# 4. Crear el archivo de variables seguras
-nano .env`;
-            document.getElementById('code-clone').textContent = cloneCode;
+            // Nuevos pasos separados para el área 3
+            document.getElementById('code-ssh').textContent = `ssh fsadmin@${ip}`;
+            document.getElementById('code-cd-base').textContent = `cd ${path}`;
+            document.getElementById('code-git-clone').textContent = `git clone git@${alias}:${user}/${proj}.git`;
+            document.getElementById('code-cd-proj').textContent = `cd ${proj}`;
 
             document.getElementById('code-repo-web').textContent = `https://github.com/${user}/${proj}/`;
             document.getElementById('code-repo-git').textContent = `https://github.com/${user}/${proj}.git`;
@@ -325,7 +341,7 @@ nano .env`;
 
         function showCopied(btnElement) {
             const originalHTML = btnElement.innerHTML;
-            btnElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white"><polyline points="20 6 9 17 4 12"></polyline></svg> Copiado!`;
+            btnElement.innerHTML = `Copiado!`;
             
             // Forzar clases temporales de color verde
             btnElement.classList.add('bg-green-500', 'text-white');
