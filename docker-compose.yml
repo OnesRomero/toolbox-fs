@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    container_name: toolbox
+    volumes:
+      - ./public:/app/public:ro
+      - ./keycloak.json:/app/keycloak.json:ro
+    restart: unless-stopped
+    networks:
+      - red_app
+networks:
+  red_app:
+    driver: bridge
+    external: true
