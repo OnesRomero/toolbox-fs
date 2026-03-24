@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: toolbox
+    container_name: toolbox-fs
     volumes:
       - ./public:/app/public:ro
       - ./keycloak.json:/app/keycloak.json:ro
