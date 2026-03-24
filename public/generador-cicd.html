@@ -293,7 +293,7 @@ API_KEY=tu_clave_super_secreta</code></pre>
                         <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
                         Exponer con Nginx Proxy Manager
                     </h3>
-                    <p class="mb-4 text-gray-600">Configura el proxy inverso para asociar tu dominio a la aplicación, habilitar HTTPS y publicarla al mundo.</p>
+                    <p class="mb-4 text-gray-600">Configura el proxy inverso para asociar tu dominio a la aplicación, habilitar HTTPS y publicarla al mundo. (el link al administrador de NPM solo funciona desde la red local)</p>
                     
                     <a id="npm-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition mb-6 shadow-md hover:shadow-lg">
                         Abrir Nginx Proxy Manager
@@ -449,7 +449,7 @@ networks:
             document.getElementById('npm-link').href = `http://${ip}:81/`;
 
             // Actualizar nuevos enlaces dinámicos
-            document.getElementById('github-link').href = `https://github.com/${user}/${proj}/`;
+            document.getElementById('github-link').href = `https://github.com/${user}/${proj}`;
             document.getElementById('jenkins-link-btn').href = `${jenkins}/`;
             document.getElementById('app-test-link').href = `https://${domain}/`;
 
