@@ -1,113 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FoxShortcut Toolbox - Herramienta Interna</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-        main {
-            flex-grow: 1;
-        }
+      body {
+        font-family: "Inter", sans-serif;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      main {
+        flex-grow: 1;
+      }
     </style>
-</head>
-<body class="bg-gray-50 text-gray-800">
-
+  </head>
+  <body class="bg-gray-50 text-gray-800">
     <header class="bg-white shadow-sm">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <img src="logo.svg" alt="FoxShortcut Logo" class="h-10 w-auto mr-3">
-                <span class="text-xl font-bold text-gray-700">FoxShortcut Toolbox</span>
-            </div>
-            
-            <a href="/logout" class="text-sm font-medium text-gray-500 hover:text-orange-600 transition duration-300">
-                Cerrar Sesión
-            </a>
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <img src="logo.svg" alt="FoxShortcut Logo" class="h-10 w-auto mr-3" />
+          <span class="text-xl font-bold text-gray-700"
+            >FoxShortcut Toolbox</span
+          >
         </div>
+
+        <a
+          href="/logout"
+          class="text-sm font-medium text-gray-500 hover:text-orange-600 transition duration-300"
+        >
+          Cerrar Sesión
+        </a>
+      </div>
     </header>
 
     <main class="container mx-auto px-6 py-12">
-        
-        <div class="text-center">
-             <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-                <span class="text-gray-900">Herramientas Internas</span><br>
-                <span class="text-orange-500">FoxShortcut</span>
-            </h1>
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
+          <span class="text-gray-900">Herramientas Internas</span><br />
+          <span class="text-orange-500">FoxShortcut</span>
+        </h1>
+      </div>
+
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <h2 class="text-2xl font-bold mb-6 text-gray-800">FoxShortcut</h2>
+          <div class="space-y-4">
+            <a
+              href="blogs-foxshortcut.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              Generar Blog
+            </a>
+            <a
+              href="Prod_Formulario_WordPress_RedesSociales_Foxshortcut.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              Generar Blog + Redes Sociales
+            </a>
+          </div>
         </div>
 
-        <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
-
-            <div class="bg-white rounded-xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">FoxShortcut</h2>
-                <div class="space-y-4">
-                    <a href="blogs-foxshortcut.html" class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        Generar Blog
-                    </a>
-                    <a href="Prod_Formulario_WordPress_RedesSociales_Foxshortcut.html" class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        Generar Blog + Redes Sociales
-                    </a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">Mariemily Silva</h2>
-                <div class="space-y-4">
-                    <a href="blogs-mariemilysilva.html" class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        Generar Blog
-                    </a>
-                    <a href="Prod_Formulario_Solo_RedesSociales_Mariemily_Silva.html" class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        Generar Redes Sociales
-                    </a>
-                    <a href="Prod_Formulario_WordPress_RedesSociales_Mariemily_Silva.html" class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        Generar Blog + Redes Sociales
-                    </a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">Ones Romero</h2>
-                <div class="space-y-4">
-                    <a href="blogs-onesromero.html" class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        Generar Blog
-                    </a>
-                    <a href="Prod_Formulario_Solo_RedesSociales_Ones_Romero.html" class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        Generar Redes Sociales
-                    </a>
-                    <a href="Prod_Formulario_WordPress_RedesSociales_Ones_Romero.html" class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        Generar Blog + Redes Sociales
-                    </a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">Utilidades</h2>
-                <div class="space-y-4">
-                    <a href="json-viewer.html"class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        JSON Viewer
-                    </a>
-<a href="generador-cicd.html" class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out">
-                        Generador de CI/CD
-                    </a>
-                </div>
-            </div>
-
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <h2 class="text-2xl font-bold mb-6 text-gray-800">Mariemily Silva</h2>
+          <div class="space-y-4">
+            <a
+              href="blogs-mariemilysilva.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              Generar Blog
+            </a>
+            <a
+              href="Prod_Formulario_Solo_RedesSociales_Mariemily_Silva.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              Generar Redes Sociales
+            </a>
+            <a
+              href="Prod_Formulario_WordPress_RedesSociales_Mariemily_Silva.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              Generar Blog + Redes Sociales
+            </a>
+          </div>
         </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <h2 class="text-2xl font-bold mb-6 text-gray-800">Ones Romero</h2>
+          <div class="space-y-4">
+            <a
+              href="blogs-onesromero.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              Generar Blog
+            </a>
+            <a
+              href="Prod_Formulario_Solo_RedesSociales_Ones_Romero.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              Generar Redes Sociales
+            </a>
+            <a
+              href="Prod_Formulario_WordPress_RedesSociales_Ones_Romero.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              Generar Blog + Redes Sociales
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-8">
+          <h2 class="text-2xl font-bold mb-6 text-gray-800">Utilidades</h2>
+          <div class="space-y-4">
+            <a
+              href="json-viewer.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              JSON Viewer
+            </a>
+            <a
+              href="generador-cicd.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              Generador de CI/CD
+            </a>
+                        <a
+              href="json-selector.html"
+              class="block w-full text-center bg-orange-500 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 ease-in-out"
+            >
+              JSON Selector
+            </a>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="bg-white mt-12">
-        <div class="container mx-auto px-6 py-6 text-center text-gray-500">
-            <p>&copy; 2025 FoxShortcut. Uso Interno.</p>
-        </div>
+      <div class="container mx-auto px-6 py-6 text-center text-gray-500">
+        <p>&copy; 2025 FoxShortcut. Uso Interno.</p>
+      </div>
     </footer>
-
-</body>
+  </body>
 </html>

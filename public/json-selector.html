@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector de Contenido JSON - FoxShortcut</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f9fafb; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+        .code-block-enter { transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 h-screen flex flex-col overflow-hidden">
+
+    <!-- Header FoxShortcut -->
+    <header class="bg-white shadow-sm z-10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="logo.svg" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" class="h-10 w-auto mr-3">
+                <svg style="display:none;" class="h-8 w-8 text-orange-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                <span class="text-xl font-bold text-gray-700">FoxShortcut <span class="hidden sm:inline text-gray-400 font-normal ml-1">|</span> <span class="text-orange-500 hidden sm:inline ml-1">JSON Selector</span></span>
+            </div>
+            
+            <a href="/" class="text-sm font-bold bg-orange-500 text-white hover:bg-orange-600 px-5 py-2 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Inicio
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex-1 container mx-auto flex flex-col md:flex-row overflow-hidden">
+        
+        <!-- Panel Izquierdo: Formulario -->
+        <aside class="w-full md:w-1/3 lg:w-1/4 bg-white border-r border-gray-200 flex flex-col overflow-hidden shadow-sm z-0">
+            <div class="p-6 border-b border-gray-100">
+                <h2 class="text-lg font-bold text-gray-800">Origen de Datos</h2>
+                <p class="text-xs text-gray-500 mt-1">Pega aquí tu Array JSON para procesarlo.</p>
+            </div>
+            
+            <div class="p-6 flex-1 overflow-y-auto space-y-4">
+                <div class="h-full flex flex-col">
+                    <textarea id="json-input" class="w-full flex-1 min-h-[250px] p-3 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition font-mono text-xs bg-gray-50 resize-none shadow-inner" placeholder='[\n  {\n    "itemType": "Idea",\n    "title": "Ejemplo",\n    ...\n  }\n]'></textarea>
+                    
+                    <p id="error-msg" class="hidden text-xs text-red-600 mt-2 font-medium bg-red-50 p-2 rounded border border-red-200"></p>
+
+                    <button onclick="processJSON()" class="mt-4 w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 px-4 rounded-lg transition duration-200 shadow flex justify-center items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                        Procesar JSON
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel de acciones inferior -->
+            <div class="p-6 bg-gray-50 border-t border-gray-200">
+                <div class="flex justify-between items-center mb-4 text-sm">
+                    <span class="text-gray-600 font-medium">Seleccionados:</span>
+                    <span class="font-bold text-gray-800 bg-white px-3 py-1 rounded-full border border-gray-200 shadow-sm"><span id="stats-selected" class="text-orange-500">0</span> / <span id="stats-total">0</span></span>
+                </div>
+                <button id="copy-btn" disabled onclick="copySelected()" class="w-full bg-orange-500 text-white font-bold py-3 px-4 rounded-lg transition duration-200 flex justify-center items-center gap-2 opacity-50 cursor-not-allowed">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    Copiar JSON Seleccionado
+                </button>
+            </div>
+        </aside>
+
+        <!-- Panel Derecho: Lista de Items -->
+        <main class="w-full md:w-2/3 lg:w-3/4 bg-gray-50 p-6 md:p-8 overflow-y-auto relative">
+            
+            <div class="max-w-4xl mx-auto mb-6 flex justify-between items-end">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-gray-900 mb-1">Contenido Disponible</h2>
+                    <p class="text-gray-600 text-sm">Selecciona los items que deseas exportar.</p>
+                </div>
+                <button onclick="toggleAll()" class="text-sm font-medium text-gray-600 hover:text-orange-600 bg-white px-4 py-2 rounded-lg border border-gray-200 shadow-sm hover:border-orange-300 transition">
+                    Seleccionar / Deseleccionar Todo
+                </button>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-4 pb-20" id="items-container">
+                <!-- Estado vacío inicial -->
+                <div class="flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                    <p class="text-gray-500 font-medium">Pega tu JSON en el panel izquierdo y presiona "Procesar"</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        let currentData = [];
+        let selectedIds = new Set();
+
+        // Cargar el JSON por defecto que proporcionaste para facilitar las pruebas
+        const defaultJSON = `[
+  {
+    "itemType": "Idea",
+    "title": "La noche que el Ni8mare casi borra mi carrera",
+    "content": "Crónica técnica sobre la vulnerabilidad CVE-2026-21858 en n8n. El 'Aha! moment' es la transición de la comodidad del self-hosting a la necesidad imperativa de firewalls de aplicación (WAF) y segmentación de red en un mundo de agentes autónomos. ROI: Evitar brechas de seguridad críticas que cuestan millones en reputación.",
+    "sourceUrl": "N/A",
+    "pillarId": 1
+  },
+  {
+    "itemType": "Trick",
+    "title": "Por qué dejé de usar agentes para mis finanzas",
+    "content": "Un baño de realidad: un script determinista de 10 líneas en Python vs. un agente costoso propenso a alucinaciones. El valor está en saber cuándo NO usar IA. ROI: Ahorro directo de $20/mes por usuario y 100% de precisión en datos sensibles.",
+    "sourceUrl": "N/A",
+    "pillarId": 1
+  },
+  {
+    "itemType": "Trend",
+    "title": "ROI del 457%: Por qué la manufactura está ganando la carrera de la IA",
+    "content": "Datos de 2026 sobre la integración IT/OT. La IA física aplicada al mantenimiento predictivo está generando retornos masivos al reducir el downtime en un 40%. El valor está en la unión del sensor con el modelo.",
+    "sourceUrl": "N/A",
+    "pillarId": 2
+  },
+  {
+    "itemType": "Framework",
+    "title": "El patrón 'Agente + Event Loop': Arquitectura para 2026",
+    "content": "Cómo diseñar sistemas agenticos asíncronos en n8n que no bloqueen los flujos de trabajo principales. Uso de colas de mensajes para manejar la latencia de la IA. Valor: Escalabilidad técnica.",
+    "sourceUrl": "N/A",
+    "pillarId": 3
+  },
+  {
+    "itemType": "Easter Egg",
+    "title": "El mensaje oculto en los logs de Amazon Nova",
+    "content": "Descubrimiento técnico en los metadatos de los nuevos modelos de AWS que facilita la depuración de cadenas de razonamiento (Chain of Thought). Un guiño para los ingenieros que buscan optimizar la latencia.",
+    "sourceUrl": "https://aws.amazon.com/bedrock/",
+    "pillarId": 1
+  }
+]`;
+
+        // Inicialización
+        window.onload = () => {
+            const jsonInput = document.getElementById('json-input');
+            jsonInput.value = defaultJSON;
+            processJSON(); // Cargar automáticamente al inicio
+        };
+
+        function processJSON() {
+            const jsonInput = document.getElementById('json-input').value;
+            const errorMsg = document.getElementById('error-msg');
+            
+            if(!jsonInput.trim()) {
+                errorMsg.textContent = "El campo JSON está vacío.";
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const parsedData = JSON.parse(jsonInput);
+                if (!Array.isArray(parsedData)) {
+                    throw new Error("El JSON base debe ser un arreglo [ ] de objetos.");
+                }
+                
+                currentData = parsedData;
+                selectedIds.clear(); // Resetear selecciones al cargar un nuevo JSON
+                renderItems();
+                updateStats();
+                errorMsg.classList.add('hidden');
+            } catch (e) {
+                errorMsg.textContent = "Error JSON: " + e.message;
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function getBadgeColor(type) {
+            const colors = {
+                'Idea': 'bg-blue-100 text-blue-800 border-blue-200',
+                'Trick': 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                'Use Case': 'bg-amber-100 text-amber-800 border-amber-200',
+                'Trend': 'bg-purple-100 text-purple-800 border-purple-200',
+                'Framework': 'bg-orange-100 text-orange-800 border-orange-200',
+                'Easter Egg': 'bg-pink-100 text-pink-800 border-pink-200'
+            };
+            return colors[type] || 'bg-gray-100 text-gray-800 border-gray-200';
+        }
+
+        function renderItems() {
+            const container = document.getElementById('items-container');
+            container.innerHTML = '';
+
+            if (currentData.length === 0) {
+                container.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-dashed border-gray-300">
+                    <p class="text-gray-500 font-medium">El arreglo JSON está vacío.</p>
+                </div>`;
+                return;
+            }
+
+            currentData.forEach((item, index) => {
+                const isSelected = selectedIds.has(index);
+                const badgeColor = getBadgeColor(item.itemType);
+                
+                // Estilos dinámicos para tarjeta seleccionada
+                const cardClasses = isSelected 
+                    ? 'border-orange-500 ring-1 ring-orange-500 bg-orange-50/20' 
+                    : 'border-gray-200 hover:border-orange-300 bg-white hover:shadow-md';
+
+                const div = document.createElement('div');
+                div.className = `p-5 rounded-xl shadow-sm border transition duration-200 cursor-pointer flex gap-4 ${cardClasses}`;
+                
+                // Hacer que toda la tarjeta sea clickable
+                div.onclick = (e) => {
+                    // Evitar trigger doble si hace clic directamente en el checkbox o en un link
+                    if(e.target.tagName !== 'INPUT' && e.target.tagName !== 'A' && e.target.closest('a') === null) {
+                        toggleSelect(index);
+                    }
+                };
+
+                div.innerHTML = `
+                    <div class="pt-1 flex-shrink-0">
+                        <input type="checkbox" id="check-${index}" class="w-5 h-5 text-orange-600 rounded border-gray-300 focus:ring-orange-500 cursor-pointer" ${isSelected ? 'checked' : ''} onchange="toggleSelect(${index})">
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold border ${badgeColor}">${item.itemType || 'N/A'}</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+                                Pilar: ${item.pillarId || 'N/A'}
+                            </span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2 leading-tight">${item.title || 'Sin Título'}</h3>
+                        <p class="text-sm text-gray-600 mb-3 leading-relaxed">${item.content || 'Sin contenido...'}</p>
+                        
+                        ${item.sourceUrl && item.sourceUrl !== 'N/A' 
+                            ? `<a href="${item.sourceUrl}" target="_blank" class="inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 hover:underline bg-blue-50 px-2 py-1 rounded" onclick="event.stopPropagation()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> 
+                                Abrir Fuente
+                               </a>` 
+                            : `<span class="inline-flex items-center gap-1 text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded border border-gray-100">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                Sin URL
+                               </span>`
+                        }
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function toggleSelect(index) {
+            if (selectedIds.has(index)) {
+                selectedIds.delete(index);
+            } else {
+                selectedIds.add(index);
+            }
+            renderItems(); 
+            updateStats();
+        }
+        
+        function toggleAll() {
+            if (currentData.length === 0) return;
+            
+            if (selectedIds.size === currentData.length) {
+                // Si están todos, deseleccionar
+                selectedIds.clear();
+            } else {
+                // Seleccionar todos
+                currentData.forEach((_, i) => selectedIds.add(i));
+            }
+            renderItems();
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('stats-selected').textContent = selectedIds.size;
+            document.getElementById('stats-total').textContent = currentData.length;
+            
+            const copyBtn = document.getElementById('copy-btn');
+            if (selectedIds.size > 0) {
+                copyBtn.disabled = false;
+                copyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                copyBtn.classList.add('hover:bg-orange-600', 'shadow-md');
+            } else {
+                copyBtn.disabled = true;
+                copyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                copyBtn.classList.remove('hover:bg-orange-600', 'shadow-md');
+            }
+        }
+
+        function copySelected() {
+            if (selectedIds.size === 0) return;
+            
+            // Convertir Set a Array y ordenarlo para mantener el orden original del JSON
+            const sortedIndices = Array.from(selectedIds).sort((a, b) => a - b);
+            
+            // Mapear los índices ordenados de vuelta a los objetos del JSON
+            const selectedItems = sortedIndices.map(index => currentData[index]);
+            
+            // Convertir a string JSON formateado con identación de 2 espacios
+            const jsonString = JSON.stringify(selectedItems, null, 2);
+            
+            // Copiar al portapapeles
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(jsonString).then(() => showCopiedStatus());
+            } else {
+                // Fallback para navegadores más antiguos o si no está en entorno seguro
+                const textArea = document.createElement("textarea");
+                textArea.value = jsonString;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showCopiedStatus();
+                } catch (err) {
+                    console.error('Error al copiar al portapapeles', err);
+                    alert("Error al intentar copiar.");
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        function showCopiedStatus() {
+            const btnElement = document.getElementById('copy-btn');
+            const originalHTML = btnElement.innerHTML;
+            
+            // Estado copiado
+            btnElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> ¡Copiado con Éxito!`;
+            btnElement.classList.remove('bg-orange-500', 'hover:bg-orange-600');
+            btnElement.classList.add('bg-green-600', 'hover:bg-green-700');
+            
+            // Restaurar a los 2.5 segundos
+            setTimeout(() => {
+                btnElement.innerHTML = originalHTML;
+                btnElement.classList.remove('bg-green-600', 'hover:bg-green-700');
+                btnElement.classList.add('bg-orange-500', 'hover:bg-orange-600');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
