@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -35,7 +35,7 @@
       <div class="bg-white p-6 sm:p-8 rounded-xl shadow-lg w-full">
         <!-- Logo -->
         <div class="flex justify-center mb-6">
-          <img src="logo.svg" alt="Logo" class="h-16 w-auto" />
+          <img src="/logo.svg" alt="Logo" class="h-16 w-auto" />
         </div>
 
         <!-- Título y Subtítulo -->
@@ -44,8 +44,7 @@
             Redes Sociales Ones Romero
           </h1>
           <p class="text-gray-500 mt-2">
-            Envía todo el contenido para tu nueva entrada de redes
-            sociales.
+            Envía todo el contenido para tu nueva entrada de redes sociales.
           </p>
         </div>
 
@@ -209,11 +208,13 @@
         // const blogContentField = document.getElementById("contenido_blog");
         // const imageField = document.getElementById("imagen_blog");
         // Nuevos campos
-        const socialContentField =
-          document.getElementById("publicaciones_redes");
+        const socialContentField = document.getElementById(
+          "publicaciones_redes",
+        );
         const linkedInImageField = document.getElementById("imagen_linkedin");
         const facebookImageField = document.getElementById("imagen_facebook");
-        const fechaPublicacionField = document.getElementById("fecha_publicacion");
+        const fechaPublicacionField =
+          document.getElementById("fecha_publicacion");
 
         // 1. Validar que el contenido del blog no esté vacío y sea un JSON válido.
         // SECCIÓN ELIMINADA
@@ -226,7 +227,7 @@
         if (fechaValue === "") {
           showNotification(
             "Por favor, selecciona una fecha de publicación.",
-            true
+            true,
           );
           return; // Detiene el envío
         }
@@ -238,7 +239,7 @@
         if (socialContentValue === "") {
           showNotification(
             'El campo "Publicaciones de Redes Sociales" no puede estar vacío.',
-            true
+            true,
           );
           return;
         }
@@ -247,7 +248,7 @@
         } catch (e) {
           showNotification(
             'El formato del JSON en "Publicaciones de Redes Sociales" es inválido.',
-            true
+            true,
           );
           return; // Detiene el envío
         }
@@ -256,7 +257,7 @@
         if (linkedInImageField.files.length === 0) {
           showNotification(
             "Por favor, selecciona una imagen para LinkedIn.",
-            true
+            true,
           );
           return; // Detiene el envío
         }
@@ -265,7 +266,7 @@
         if (facebookImageField.files.length === 0) {
           showNotification(
             "Por favor, selecciona una imagen para Facebook.",
-            true
+            true,
           );
           return; // Detiene el envío
         }
@@ -299,7 +300,7 @@
               body: errorBody,
             });
             throw new Error(
-              `Error ${response.status}: ${response.statusText}. Revisa la consola para más detalles.`
+              `Error ${response.status}: ${response.statusText}. Revisa la consola para más detalles.`,
             );
           }
         } catch (error) {
@@ -308,7 +309,7 @@
           showNotification(
             error.message ||
               "Error al enviar el contenido. Inténtalo de nuevo.",
-            true
+            true,
           );
         } finally {
           // --- RESTABLECIMIENTO DEL ESTADO DEL BOTÓN ---
@@ -320,6 +321,3 @@
     </script>
   </body>
 </html>
-
-
-

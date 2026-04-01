@@ -1,399 +1,1014 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Generador de Guía CI/CD - FoxShortcut</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #f9fafb; }
-        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
-        .code-block-enter { transition: all 0.3s ease; }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f9fafb;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+      }
+      .code-block-enter {
+        transition: all 0.3s ease;
+      }
     </style>
-</head>
-<body class="bg-gray-50 text-gray-800 h-screen flex flex-col overflow-hidden">
-
+  </head>
+  <body class="bg-gray-50 text-gray-800 h-screen flex flex-col overflow-hidden">
     <!-- Header FoxShortcut -->
     <header class="bg-white shadow-sm z-10">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <img src="logo.svg" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" class="h-10 w-auto mr-3">
-                <svg style="display:none;" class="h-8 w-8 text-orange-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                <span class="text-xl font-bold text-gray-700">FoxShortcut <span class="hidden sm:inline text-gray-400 font-normal ml-1">|</span> <span class="text-orange-500 hidden sm:inline ml-1">CI/CD Gen</span></span>
-            </div>
-            
-            <a href="/" class="text-sm font-bold bg-orange-500 text-white hover:bg-orange-600 px-5 py-2 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                Inicio
-            </a>
+      <div
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div class="flex items-center">
+          <img
+            src="/logo.svg"
+            alt=""
+            onerror="
+              this.style.display = 'none';
+              this.nextElementSibling.style.display = 'block';
+            "
+            class="h-10 w-auto mr-3"
+          />
+          <svg
+            style="display: none"
+            class="h-8 w-8 text-orange-500 mr-3"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"
+            />
+          </svg>
+          <span class="text-xl font-bold text-gray-700"
+            >FoxShortcut
+            <span class="hidden sm:inline text-gray-400 font-normal ml-1"
+              >|</span
+            >
+            <span class="text-orange-500 hidden sm:inline ml-1"
+              >CI/CD Gen</span
+            ></span
+          >
         </div>
+
+        <a
+          href="/"
+          class="text-sm font-bold bg-orange-500 text-white hover:bg-orange-600 px-5 py-2 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Inicio
+        </a>
+      </div>
     </header>
 
     <!-- Main Content -->
-    <div class="flex-1 container mx-auto flex flex-col md:flex-row overflow-hidden">
-        
-        <!-- Panel Izquierdo: Formulario -->
-        <aside class="w-full md:w-1/3 lg:w-1/4 bg-white border-r border-gray-200 p-6 overflow-y-auto shadow-sm z-0">
-            <h2 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2">Configuración del Proyecto</h2>
-            
+    <div
+      class="flex-1 container mx-auto flex flex-col md:flex-row overflow-hidden"
+    >
+      <!-- Panel Izquierdo: Formulario -->
+      <aside
+        class="w-full md:w-1/3 lg:w-1/4 bg-white border-r border-gray-200 p-6 overflow-y-auto shadow-sm z-0"
+      >
+        <h2 class="text-lg font-bold mb-4 text-gray-800 border-b pb-2">
+          Configuración del Proyecto
+        </h2>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1"
+              >Nombre del Proyecto (Repo)</label
+            >
+            <input
+              type="text"
+              id="proj"
+              value="mi-nuevo-proyecto"
+              oninput="updateGuide()"
+              class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1"
+              >Cuenta Git (Alias SSH)</label
+            >
+            <select
+              id="alias"
+              onchange="handleAliasChange()"
+              class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-white"
+            >
+              <option value="mariemily">mariemily</option>
+              <option value="ones">ones</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-600 mb-1"
+              >Usuario de GitHub</label
+            >
+            <input
+              type="text"
+              id="user"
+              value="Mariemily"
+              oninput="updateGuide()"
+              class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition"
+            />
+          </div>
+
+          <div class="pt-4 border-t border-gray-100">
+            <h3
+              class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3"
+            >
+              Infraestructura Base
+            </h3>
+
             <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-1">Nombre del Proyecto (Repo)</label>
-                    <input type="text" id="proj" value="mi-nuevo-proyecto" oninput="updateGuide()" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition">
-                </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1"
+                  >IP del Servidor (Host)</label
+                >
+                <input
+                  type="text"
+                  id="ip"
+                  value="192.168.1.50"
+                  oninput="updateGuide()"
+                  class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm"
+                />
+              </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-1">Cuenta Git (Alias SSH)</label>
-                    <select id="alias" onchange="handleAliasChange()" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition bg-white">
-                        <option value="mariemily">mariemily</option>
-                        <option value="ones">ones</option>
-                    </select>
-                </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1"
+                  >Ruta Base en Servidor</label
+                >
+                <input
+                  type="text"
+                  id="path"
+                  value="/home/fsadmin"
+                  oninput="updateGuide()"
+                  class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm"
+                />
+              </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-600 mb-1">Usuario de GitHub</label>
-                    <input type="text" id="user" value="Mariemily" oninput="updateGuide()" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition">
-                </div>
-
-                <div class="pt-4 border-t border-gray-100">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Infraestructura Base</h3>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600 mb-1">IP del Servidor (Host)</label>
-                            <input type="text" id="ip" value="192.168.1.50" oninput="updateGuide()" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600 mb-1">Ruta Base en Servidor</label>
-                            <input type="text" id="path" value="/home/fsadmin" oninput="updateGuide()" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600 mb-1">URL Pública de Jenkins</label>
-                            <input type="text" id="jenkins" value="https://jenkins.foxshortcut.com" oninput="updateGuide()" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-4 border-t border-gray-100">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Dominio y Proxy</h3>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600 mb-1">Dominio / Subdominio</label>
-                            <input type="text" id="domain" value="app.midominio.com" oninput="updateGuide()" placeholder="ej. api.proyecto.com" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-600 mb-1">Puerto Interno de la App</label>
-                            <input type="number" id="port" value="3000" oninput="updateGuide()" placeholder="3000" class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm">
-                        </div>
-                    </div>
-                </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1"
+                  >URL Pública de Jenkins</label
+                >
+                <input
+                  type="text"
+                  id="jenkins"
+                  value="https://jenkins.foxshortcut.com"
+                  oninput="updateGuide()"
+                  class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm"
+                />
+              </div>
             </div>
-        </aside>
+          </div>
 
-        <!-- Panel Derecho: Guía Generada -->
-        <main class="w-full md:w-2/3 lg:w-3/4 bg-gray-50 p-6 md:p-10 overflow-y-auto">
-            <div class="max-w-4xl mx-auto space-y-8 pb-20">
-                
-                <div>
-                    <h2 class="text-3xl font-extrabold text-gray-900 mb-2">Guía de Despliegue: <span class="text-orange-500 dyn-proj">mi-nuevo-proyecto</span></h2>
-                    <p class="text-gray-600">Sigue estos pasos para conectar este nuevo proyecto al flujo automatizado y exponerlo en internet.</p>
+          <div class="pt-4 border-t border-gray-100">
+            <h3
+              class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3"
+            >
+              Dominio y Proxy
+            </h3>
+
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1"
+                  >Dominio / Subdominio</label
+                >
+                <input
+                  type="text"
+                  id="domain"
+                  value="app.midominio.com"
+                  oninput="updateGuide()"
+                  placeholder="ej. api.proyecto.com"
+                  class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-600 mb-1"
+                  >Puerto Interno de la App</label
+                >
+                <input
+                  type="number"
+                  id="port"
+                  value="3000"
+                  oninput="updateGuide()"
+                  placeholder="3000"
+                  class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition text-sm"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Panel Derecho: Guía Generada -->
+      <main
+        class="w-full md:w-2/3 lg:w-3/4 bg-gray-50 p-6 md:p-10 overflow-y-auto"
+      >
+        <div class="max-w-4xl mx-auto space-y-8 pb-20">
+          <div>
+            <h2 class="text-3xl font-extrabold text-gray-900 mb-2">
+              Guía de Despliegue:
+              <span class="text-orange-500 dyn-proj">mi-nuevo-proyecto</span>
+            </h2>
+            <p class="text-gray-600">
+              Sigue estos pasos para conectar este nuevo proyecto al flujo
+              automatizado y exponerlo en internet.
+            </p>
+          </div>
+
+          <!-- Paso 1 -->
+          <section
+            class="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <h3
+              class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"
+            >
+              <span
+                class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                >1</span
+              >
+              Preparar el Repositorio (Código Fuente)
+            </h3>
+            <p class="mb-4 text-gray-600">
+              Asegúrate de incluir estos <strong>dos archivos clave</strong> en
+              la raíz de tu proyecto en GitHub:
+            </p>
+
+            <h4 class="font-bold text-gray-700 text-sm mb-2">
+              A. El archivo
+              <code class="bg-gray-100 px-1 rounded text-orange-600 font-mono"
+                >docker-compose.yml</code
+              >
+            </h4>
+            <p class="text-sm text-gray-600 mb-2">
+              Presta atención al
+              <strong class="text-yellow-600">container_name</strong> y al
+              <strong>puerto interno</strong> (los usaremos en NPM). Para no
+              exponer la app directamente al host, la conectaremos a la red
+              externa
+              <code class="bg-gray-100 px-1 rounded text-blue-600 font-mono"
+                >red_app</code
+              >. <br /><span class="italic text-gray-500 text-xs"
+                >Nota: Usualmente tu aplicación es quien expone el puerto
+                internamente, no hace falta declararlo explícitamente con
+                "expose" o "ports" en este archivo a menos que sea
+                necesario.</span
+              >
+            </p>
+            <div class="relative group mb-6">
+              <button
+                onclick="copyCode('code-dockercompose', this)"
+                class="absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  ></path>
+                </svg>
+                Copiar
+              </button>
+              <pre
+                class="bg-gray-800 text-blue-300 p-4 rounded-lg overflow-x-auto text-sm leading-relaxed"
+              ><code id="code-dockercompose"></code></pre>
+            </div>
+
+            <h4 class="font-bold text-gray-700 text-sm mb-2">
+              B. El archivo
+              <code class="bg-gray-100 px-1 rounded text-orange-600 font-mono"
+                >Jenkinsfile</code
+              >
+            </h4>
+            <p class="text-sm text-gray-600 mb-2">
+              Copia y pega este código en un archivo llamado
+              <code>Jenkinsfile</code>. Contiene la ruta exacta a donde Jenkins
+              debe ir en tu servidor.
+            </p>
+            <div class="relative group">
+              <button
+                onclick="copyCode('code-jenkinsfile', this)"
+                class="absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  ></path>
+                </svg>
+                Copiar
+              </button>
+              <pre
+                class="bg-gray-800 text-green-400 p-4 rounded-lg overflow-x-auto text-sm leading-relaxed"
+              ><code id="code-jenkinsfile"></code></pre>
+            </div>
+          </section>
+
+          <!-- Paso 2 -->
+          <section
+            class="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+              <h3
+                class="text-xl font-bold text-gray-800 flex items-center gap-2 m-0"
+              >
+                <span
+                  class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                  >2</span
+                >
+                Configurar GitHub Webhook
+              </h3>
+              <a
+                id="github-link"
+                href="#"
+                target="_blank"
+                class="w-fit text-xs bg-gray-800 text-white hover:bg-gray-700 px-3 py-1.5 rounded flex items-center gap-1 transition shadow-sm"
+              >
+                Abrir GitHub
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                  ></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </div>
+            <p class="mb-2 text-gray-600">
+              Dentro del proyecto de GitHub, ve a
+              <strong>Settings > Webhooks > Add webhook</strong> en tu
+              repositorio
+              <span class="font-bold text-gray-800 dyn-proj"
+                >mi-nuevo-proyecto</span
+              >.
+            </p>
+            <ul class="list-disc pl-5 space-y-2 text-gray-600 mb-4">
+              <li>Activa <strong>Just the push event</strong></li>
+              <li>
+                <strong>Content type:</strong>
+                <code class="bg-gray-100 px-1 rounded text-gray-800"
+                  >application/json</code
+                >
+              </li>
+              <li>
+                <strong>Payload URL:</strong> Copia la siguiente ruta (¡Incluye
+                la barra al final!):
+              </li>
+            </ul>
+
+            <div class="relative group mt-2">
+              <button
+                onclick="copyCode('code-webhook', this)"
+                class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow-sm"
+              >
+                Copiar
+              </button>
+              <pre
+                class="bg-gray-100 border border-gray-200 text-gray-800 p-3 rounded-lg overflow-x-auto text-sm"
+              ><code id="code-webhook"></code></pre>
+            </div>
+          </section>
+
+          <!-- Paso 3 -->
+          <section
+            class="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <h3
+              class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"
+            >
+              <span
+                class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                >3</span
+              >
+              Preparar el Servidor Ubuntu (Solo primera vez)
+            </h3>
+            <p class="mb-5 text-gray-600">
+              Vamos a conectarnos al servidor y a clonar el proyecto usando el
+              alias
+              <strong
+                ><span
+                  class="dyn-alias text-orange-600 font-bold uppercase"
+                ></span
+              ></strong>
+              para finalmente crear el archivo
+              <code class="bg-gray-100 px-1 rounded">.env</code> de forma
+              segura.
+            </p>
+
+            <div class="space-y-4">
+              <!-- Comando 1: SSH -->
+              <div>
+                <p class="text-sm font-bold text-gray-700 mb-1">
+                  1. Conéctate al servidor por SSH
+                </p>
+                <div class="relative group">
+                  <button
+                    onclick="copyCode('code-ssh', this)"
+                    class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow"
+                  >
+                    Copiar
+                  </button>
+                  <pre
+                    class="bg-gray-800 text-purple-300 p-3 rounded-lg overflow-x-auto text-sm"
+                  ><code id="code-ssh"></code></pre>
                 </div>
+              </div>
 
-                <!-- Paso 1 -->
-                <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
-                        Preparar el Repositorio (Código Fuente)
-                    </h3>
-                    <p class="mb-4 text-gray-600">Asegúrate de incluir estos <strong>dos archivos clave</strong> en la raíz de tu proyecto en GitHub:</p>
-                    
-                    <h4 class="font-bold text-gray-700 text-sm mb-2">A. El archivo <code class="bg-gray-100 px-1 rounded text-orange-600 font-mono">docker-compose.yml</code></h4>
-                    <p class="text-sm text-gray-600 mb-2">Presta atención al <strong class="text-yellow-600">container_name</strong> y al <strong>puerto interno</strong> (los usaremos en NPM). Para no exponer la app directamente al host, la conectaremos a la red externa <code class="bg-gray-100 px-1 rounded text-blue-600 font-mono">red_app</code>. <br><span class="italic text-gray-500 text-xs">Nota: Usualmente tu aplicación es quien expone el puerto internamente, no hace falta declararlo explícitamente con "expose" o "ports" en este archivo a menos que sea necesario.</span></p>
-                    <div class="relative group mb-6">
-                        <button onclick="copyCode('code-dockercompose', this)" class="absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copiar
-                        </button>
-                        <pre class="bg-gray-800 text-blue-300 p-4 rounded-lg overflow-x-auto text-sm leading-relaxed"><code id="code-dockercompose"></code></pre>
-                    </div>
+              <!-- Comando 2: CD Ruta Base -->
+              <div>
+                <p class="text-sm font-bold text-gray-700 mb-1">
+                  2. Entra a la ruta base
+                </p>
+                <div class="relative group">
+                  <button
+                    onclick="copyCode('code-cd-base', this)"
+                    class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow"
+                  >
+                    Copiar
+                  </button>
+                  <pre
+                    class="bg-gray-800 text-blue-300 p-3 rounded-lg overflow-x-auto text-sm"
+                  ><code id="code-cd-base"></code></pre>
+                </div>
+              </div>
 
-                    <h4 class="font-bold text-gray-700 text-sm mb-2">B. El archivo <code class="bg-gray-100 px-1 rounded text-orange-600 font-mono">Jenkinsfile</code></h4>
-                    <p class="text-sm text-gray-600 mb-2">Copia y pega este código en un archivo llamado <code>Jenkinsfile</code>. Contiene la ruta exacta a donde Jenkins debe ir en tu servidor.</p>
-                    <div class="relative group">
-                        <button onclick="copyCode('code-jenkinsfile', this)" class="absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copiar
-                        </button>
-                        <pre class="bg-gray-800 text-green-400 p-4 rounded-lg overflow-x-auto text-sm leading-relaxed"><code id="code-jenkinsfile"></code></pre>
-                    </div>
-                </section>
+              <!-- Comando 3: Git Clone -->
+              <div>
+                <p class="text-sm font-bold text-gray-700 mb-1">
+                  3. Clona el proyecto
+                </p>
+                <div class="relative group">
+                  <button
+                    onclick="copyCode('code-git-clone', this)"
+                    class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow"
+                  >
+                    Copiar
+                  </button>
+                  <pre
+                    class="bg-gray-800 text-green-300 p-3 rounded-lg overflow-x-auto text-sm"
+                  ><code id="code-git-clone"></code></pre>
+                </div>
+              </div>
 
-                <!-- Paso 2 -->
-                <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-                        <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2 m-0">
-                            <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
-                            Configurar GitHub Webhook
-                        </h3>
-                        <a id="github-link" href="#" target="_blank" class="w-fit text-xs bg-gray-800 text-white hover:bg-gray-700 px-3 py-1.5 rounded flex items-center gap-1 transition shadow-sm">
-                            Abrir GitHub <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                        </a>
-                    </div>
-                    <p class="mb-2 text-gray-600">Dentro del proyecto de GitHub, ve a <strong>Settings > Webhooks > Add webhook</strong> en tu repositorio <span class="font-bold text-gray-800 dyn-proj">mi-nuevo-proyecto</span>.</p>
-                    <ul class="list-disc pl-5 space-y-2 text-gray-600 mb-4">
-                        <li>Activa <strong>Just the push event</strong></li>
-                        <li><strong>Content type:</strong> <code class="bg-gray-100 px-1 rounded text-gray-800">application/json</code></li>
-                        <li><strong>Payload URL:</strong> Copia la siguiente ruta (¡Incluye la barra al final!):</li>
-                    </ul>
+              <!-- Comando 4: CD Proyecto -->
+              <div>
+                <p class="text-sm font-bold text-gray-700 mb-1">
+                  4. Entra a la carpeta del proyecto
+                </p>
+                <div class="relative group">
+                  <button
+                    onclick="copyCode('code-cd-proj', this)"
+                    class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow"
+                  >
+                    Copiar
+                  </button>
+                  <pre
+                    class="bg-gray-800 text-yellow-300 p-3 rounded-lg overflow-x-auto text-sm"
+                  ><code id="code-cd-proj"></code></pre>
+                </div>
+              </div>
 
-                    <div class="relative group mt-2">
-                        <button onclick="copyCode('code-webhook', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow-sm">
-                            Copiar
-                        </button>
-                        <pre class="bg-gray-100 border border-gray-200 text-gray-800 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-webhook"></code></pre>
-                    </div>
-                </section>
+              <!-- Comando 5: Nano -->
+              <div>
+                <p class="text-sm font-bold text-gray-700 mb-1">
+                  5. Crea el archivo de variables seguras
+                </p>
+                <div class="relative group">
+                  <button
+                    onclick="copyCode('code-nano', this)"
+                    class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow"
+                  >
+                    Copiar
+                  </button>
+                  <pre
+                    class="bg-gray-800 text-gray-300 p-3 rounded-lg overflow-x-auto text-sm"
+                  ><code id="code-nano">nano .env</code></pre>
+                </div>
+              </div>
+            </div>
 
-                <!-- Paso 3 -->
-                <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
-                        Preparar el Servidor Ubuntu (Solo primera vez)
-                    </h3>
-                    <p class="mb-5 text-gray-600">Vamos a conectarnos al servidor y a clonar el proyecto usando el alias <strong><span class="dyn-alias text-orange-600 font-bold uppercase"></span></strong> para finalmente crear el archivo <code class="bg-gray-100 px-1 rounded">.env</code> de forma segura.</p>
-                    
-                    <div class="space-y-4">
-                        <!-- Comando 1: SSH -->
-                        <div>
-                            <p class="text-sm font-bold text-gray-700 mb-1">1. Conéctate al servidor por SSH</p>
-                            <div class="relative group">
-                                <button onclick="copyCode('code-ssh', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
-                                <pre class="bg-gray-800 text-purple-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-ssh"></code></pre>
-                            </div>
-                        </div>
-
-                        <!-- Comando 2: CD Ruta Base -->
-                        <div>
-                            <p class="text-sm font-bold text-gray-700 mb-1">2. Entra a la ruta base</p>
-                            <div class="relative group">
-                                <button onclick="copyCode('code-cd-base', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
-                                <pre class="bg-gray-800 text-blue-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-cd-base"></code></pre>
-                            </div>
-                        </div>
-
-                        <!-- Comando 3: Git Clone -->
-                        <div>
-                            <p class="text-sm font-bold text-gray-700 mb-1">3. Clona el proyecto</p>
-                            <div class="relative group">
-                                <button onclick="copyCode('code-git-clone', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
-                                <pre class="bg-gray-800 text-green-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-git-clone"></code></pre>
-                            </div>
-                        </div>
-
-                        <!-- Comando 4: CD Proyecto -->
-                        <div>
-                            <p class="text-sm font-bold text-gray-700 mb-1">4. Entra a la carpeta del proyecto</p>
-                            <div class="relative group">
-                                <button onclick="copyCode('code-cd-proj', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
-                                <pre class="bg-gray-800 text-yellow-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-cd-proj"></code></pre>
-                            </div>
-                        </div>
-
-                        <!-- Comando 5: Nano -->
-                        <div>
-                            <p class="text-sm font-bold text-gray-700 mb-1">5. Crea el archivo de variables seguras</p>
-                            <div class="relative group">
-                                <button onclick="copyCode('code-nano', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-700 hover:bg-gray-600 text-white text-xs px-3 py-1.5 rounded transition opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow">Copiar</button>
-                                <pre class="bg-gray-800 text-gray-300 p-3 rounded-lg overflow-x-auto text-sm"><code id="code-nano">nano .env</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mt-6 bg-orange-50 border-l-4 border-orange-500 p-4 rounded">
-                        <p class="text-sm text-gray-800 font-bold mb-1">📝 Instrucciones para el editor Nano:</p>
-                        <p class="text-sm text-gray-600 mb-2">Una vez que se abra el editor, pega todas tus credenciales (las mismas que usa tu app). Por ejemplo:</p>
-                        <pre class="bg-white p-2 border border-gray-200 rounded text-xs text-gray-600 mb-2"><code>PORT=<span class="dyn-port">3000</span>
+            <div
+              class="mt-6 bg-orange-50 border-l-4 border-orange-500 p-4 rounded"
+            >
+              <p class="text-sm text-gray-800 font-bold mb-1">
+                📝 Instrucciones para el editor Nano:
+              </p>
+              <p class="text-sm text-gray-600 mb-2">
+                Una vez que se abra el editor, pega todas tus credenciales (las
+                mismas que usa tu app). Por ejemplo:
+              </p>
+              <pre
+                class="bg-white p-2 border border-gray-200 rounded text-xs text-gray-600 mb-2"
+              ><code>PORT=<span class="dyn-port">3000</span>
 DB_HOST=localhost
 API_KEY=tu_clave_super_secreta</code></pre>
-                        <p class="text-sm text-gray-600">Para salir y guardar presiona: <strong>Ctrl + O</strong>, luego <strong>Enter</strong>, y finalmente <strong>Ctrl + X</strong>. <br><span class="italic text-gray-500">¡Eso es todo! No ejecutes docker compose up, Jenkins lo hará por ti.</span></p>
-                    </div>
-                </section>
-
-                <!-- Paso 4 -->
-                <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-                        <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2 m-0">
-                            <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
-                            Crear la Tarea en Jenkins
-                        </h3>
-                        <a id="jenkins-link-btn" href="#" target="_blank" class="w-fit text-xs bg-red-600 text-white hover:bg-red-700 px-3 py-1.5 rounded flex items-center gap-1 transition shadow-sm">
-                            Abrir Jenkins <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                        </a>
-                    </div>
-                    <div class="space-y-4 text-gray-600">
-                        <p>1. Entra a Jenkins > <strong>Nueva Tarea</strong> > Nómbrala <code class="bg-gray-100 px-1 rounded dyn-proj font-bold text-gray-800"></code> > Selecciona <strong>Pipeline</strong>.</p>
-                        
-                        <div class="pl-4 border-l-2 border-orange-200 space-y-3">
-                            <div>
-                                <strong class="text-gray-800">Pestaña General:</strong><br>
-                                Marca "GitHub project" y pega la URL web:
-                                <div class="relative group mt-1 inline-block w-full">
-                                    <button onclick="copyCode('code-repo-web', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-2 py-1 rounded transition opacity-0 group-hover:opacity-100 shadow-sm">Copiar</button>
-                                    <code id="code-repo-web" class="block bg-gray-100 border border-gray-200 p-2 rounded-lg text-sm w-full text-gray-800"></code>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <strong class="text-gray-800">Disparadores (Build Triggers):</strong><br>
-                                Marca la option <strong>GitHub hook trigger for GITScm polling</strong>.
-                            </div>
-
-                            <div>
-                                <strong class="text-gray-800">Sección Pipeline:</strong><br>
-                                • Definition: <code class="bg-gray-100 px-1 rounded text-gray-800">Pipeline script from SCM</code><br>
-                                • SCM: <code class="bg-gray-100 px-1 rounded text-gray-800">Git</code><br>
-                                • Repository URL:
-                                <div class="relative group mt-1 inline-block w-full">
-                                    <button onclick="copyCode('code-repo-git', this)" class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-2 py-1 rounded transition opacity-0 group-hover:opacity-100 shadow-sm">Copiar</button>
-                                    <code id="code-repo-git" class="block bg-gray-100 border border-gray-200 p-2 rounded-lg text-sm w-full text-gray-800"></code>
-                                </div>
-                                • Credentials: <strong>Selecciona el Token de <span class="dyn-alias capitalize text-orange-600"></span></strong><br>
-                                • Branches to build: <code class="bg-gray-100 px-1 rounded text-gray-800">*/main</code><br>
-                                • Script Path: <code class="bg-gray-100 px-1 rounded text-gray-800">Jenkinsfile</code>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Paso 5 -->
-                <section class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
-                        Arranque Manual (Anclaje)
-                    </h3>
-                    <p class="text-gray-600">Para que Jenkins vincule el Webhook recién creado, debes iniciar la tarea manualmente una sola vez:</p>
-                    <ol class="list-decimal pl-5 mt-2 space-y-1 text-gray-600 font-medium">
-                        <li>Haz clic en <strong>"Construir ahora"</strong> (Build Now) en Jenkins.</li>
-                        <li>Verifica que termine con estado <span class="text-green-600 font-bold">SUCCESS</span>.</li>
-                        <li>A partir de ahora, cualquier <code class="bg-gray-100 px-1 rounded font-normal text-gray-800">git push</code> desplegará tu app automáticamente. 🚀</li>
-                    </ol>
-                </section>
-
-                <!-- Paso 6 (NUEVO): Nginx Proxy Manager -->
-                <section class="bg-white p-6 rounded-xl shadow-lg border border-blue-200 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg shadow">Paso Final</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                        <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
-                        Exponer con Nginx Proxy Manager
-                    </h3>
-                    <p class="mb-4 text-gray-600">Configura el proxy inverso para asociar tu dominio a la aplicación, habilitar HTTPS y publicarla al mundo. (el link al administrador de NPM solo funciona desde la red local)</p>
-                    
-                    <a id="npm-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition mb-6 shadow-md hover:shadow-lg">
-                        Abrir Nginx Proxy Manager
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                    </a>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
-                            <h4 class="font-bold text-gray-800 mb-3 border-b pb-2 flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-500"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                                Pestaña "Details"
-                            </h4>
-                            <p class="text-xs text-gray-500 mb-3">Añade un <strong>New Proxy Host</strong> y llena los datos exactos:</p>
-                            <ul class="space-y-3 text-sm text-gray-600">
-                                <li class="flex flex-col">
-                                    <span class="font-semibold">Domain Names:</span> 
-                                    <span class="dyn-domain bg-gray-200 px-2 py-1 mt-1 inline-block rounded font-mono text-gray-800 break-all border border-gray-300 w-fit"></span>
-                                </li>
-                                <li><strong>Scheme:</strong> <code class="bg-gray-200 px-1 rounded text-gray-800 border border-gray-300">http</code></li>
-                                <li class="flex flex-col">
-                                    <span class="font-semibold">Forward Hostname / IP:</span>
-                                    <span class="dyn-proj bg-yellow-100 border border-yellow-300 px-2 py-1 mt-1 inline-block rounded font-mono text-yellow-800 font-bold w-fit"></span>
-                                    <span class="text-xs text-gray-500 italic mt-1">(¡Importante! Es el nombre exacto del contenedor)</span>
-                                </li>
-                                <li class="flex flex-col">
-                                    <span class="font-semibold">Forward Port:</span>
-                                    <span class="dyn-port bg-gray-200 px-2 py-1 mt-1 inline-block rounded font-mono text-gray-800 border border-gray-300 w-fit"></span>
-                                    <span class="text-xs text-gray-500 italic mt-1">(Puerto interno de la app, NO el mapeado en host)</span>
-                                </li>
-                                <li><span class="font-semibold">Activar opción:</span> <code class="bg-gray-100 px-1 rounded text-gray-700">Block Common Exploits</code></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
-                            <h4 class="font-bold text-gray-800 mb-3 border-b pb-2 flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                Pestaña "SSL"
-                            </h4>
-                            <p class="text-xs text-gray-500 mb-3">Genera el certificado automático (Let's Encrypt ya está preconfigurado):</p>
-                            <ul class="space-y-4 text-sm text-gray-600">
-                                <li>
-                                    <span class="font-semibold">SSL Certificate:</span><br>
-                                    Selecciona el desplegable y elige: <br><strong class="text-gray-800">"Request a new SSL Certificate"</strong>
-                                </li>
-                                <li><span class="font-semibold">Activar opción:</span> <code class="bg-gray-100 px-1 rounded text-gray-700">Force SSL</code></li>
-                                <li><span class="font-semibold">Activar opción:</span> <code class="bg-gray-100 px-1 rounded text-gray-700">HTTP/2 Support</code></li>
-                                <li class="bg-green-50 p-3 rounded border border-green-200 text-green-800 text-xs">
-                                    <strong>Nota:</strong> Tu correo ya está en el sistema, solo asegúrate de marcar <em>"I Agree to the Let's Encrypt Terms of Service"</em> y presiona <strong>Save</strong>.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Paso 7 (NUEVO): Probar App -->
-                <section class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl shadow-lg border border-green-200 relative overflow-hidden">
-                    <h3 class="text-xl font-bold text-green-800 mb-2 flex items-center gap-2">
-                        <span class="bg-green-200 text-green-700 w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-sm">7</span>
-                        ¡Prueba tu Aplicación! 🎉
-                    </h3>
-                    <p class="mb-5 text-green-700">Si todos los pasos anteriores fueron exitosos y Jenkins terminó la tarea, tu aplicación ya debería estar en línea y protegida con SSL.</p>
-                    <a id="app-test-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg text-base font-bold transition shadow-md hover:shadow-lg">
-                        Visitar <span class="dyn-domain"></span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                    </a>
-                </section>
-
+              <p class="text-sm text-gray-600">
+                Para salir y guardar presiona: <strong>Ctrl + O</strong>, luego
+                <strong>Enter</strong>, y finalmente <strong>Ctrl + X</strong>.
+                <br /><span class="italic text-gray-500"
+                  >¡Eso es todo! No ejecutes docker compose up, Jenkins lo hará
+                  por ti.</span
+                >
+              </p>
             </div>
-        </main>
+          </section>
+
+          <!-- Paso 4 -->
+          <section
+            class="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <div class="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+              <h3
+                class="text-xl font-bold text-gray-800 flex items-center gap-2 m-0"
+              >
+                <span
+                  class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                  >4</span
+                >
+                Crear la Tarea en Jenkins
+              </h3>
+              <a
+                id="jenkins-link-btn"
+                href="#"
+                target="_blank"
+                class="w-fit text-xs bg-red-600 text-white hover:bg-red-700 px-3 py-1.5 rounded flex items-center gap-1 transition shadow-sm"
+              >
+                Abrir Jenkins
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                  ></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </div>
+            <div class="space-y-4 text-gray-600">
+              <p>
+                1. Entra a Jenkins > <strong>Nueva Tarea</strong> > Nómbrala
+                <code
+                  class="bg-gray-100 px-1 rounded dyn-proj font-bold text-gray-800"
+                ></code>
+                > Selecciona <strong>Pipeline</strong>.
+              </p>
+
+              <div class="pl-4 border-l-2 border-orange-200 space-y-3">
+                <div>
+                  <strong class="text-gray-800">Pestaña General:</strong><br />
+                  Marca "GitHub project" y pega la URL web:
+                  <div class="relative group mt-1 inline-block w-full">
+                    <button
+                      onclick="copyCode('code-repo-web', this)"
+                      class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-2 py-1 rounded transition opacity-0 group-hover:opacity-100 shadow-sm"
+                    >
+                      Copiar
+                    </button>
+                    <code
+                      id="code-repo-web"
+                      class="block bg-gray-100 border border-gray-200 p-2 rounded-lg text-sm w-full text-gray-800"
+                    ></code>
+                  </div>
+                </div>
+
+                <div>
+                  <strong class="text-gray-800"
+                    >Disparadores (Build Triggers):</strong
+                  ><br />
+                  Marca la option
+                  <strong>GitHub hook trigger for GITScm polling</strong>.
+                </div>
+
+                <div>
+                  <strong class="text-gray-800">Sección Pipeline:</strong><br />
+                  • Definition:
+                  <code class="bg-gray-100 px-1 rounded text-gray-800"
+                    >Pipeline script from SCM</code
+                  ><br />
+                  • SCM:
+                  <code class="bg-gray-100 px-1 rounded text-gray-800">Git</code
+                  ><br />
+                  • Repository URL:
+                  <div class="relative group mt-1 inline-block w-full">
+                    <button
+                      onclick="copyCode('code-repo-git', this)"
+                      class="absolute top-1/2 -translate-y-1/2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-2 py-1 rounded transition opacity-0 group-hover:opacity-100 shadow-sm"
+                    >
+                      Copiar
+                    </button>
+                    <code
+                      id="code-repo-git"
+                      class="block bg-gray-100 border border-gray-200 p-2 rounded-lg text-sm w-full text-gray-800"
+                    ></code>
+                  </div>
+                  • Credentials:
+                  <strong
+                    >Selecciona el Token de
+                    <span
+                      class="dyn-alias capitalize text-orange-600"
+                    ></span></strong
+                  ><br />
+                  • Branches to build:
+                  <code class="bg-gray-100 px-1 rounded text-gray-800"
+                    >*/main</code
+                  ><br />
+                  • Script Path:
+                  <code class="bg-gray-100 px-1 rounded text-gray-800"
+                    >Jenkinsfile</code
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Paso 5 -->
+          <section
+            class="bg-white p-6 rounded-xl shadow-lg border border-gray-100"
+          >
+            <h3
+              class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"
+            >
+              <span
+                class="bg-orange-100 text-orange-600 w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                >5</span
+              >
+              Arranque Manual (Anclaje)
+            </h3>
+            <p class="text-gray-600">
+              Para que Jenkins vincule el Webhook recién creado, debes iniciar
+              la tarea manualmente una sola vez:
+            </p>
+            <ol
+              class="list-decimal pl-5 mt-2 space-y-1 text-gray-600 font-medium"
+            >
+              <li>
+                Haz clic en <strong>"Construir ahora"</strong> (Build Now) en
+                Jenkins.
+              </li>
+              <li>
+                Verifica que termine con estado
+                <span class="text-green-600 font-bold">SUCCESS</span>.
+              </li>
+              <li>
+                A partir de ahora, cualquier
+                <code class="bg-gray-100 px-1 rounded font-normal text-gray-800"
+                  >git push</code
+                >
+                desplegará tu app automáticamente. 🚀
+              </li>
+            </ol>
+          </section>
+
+          <!-- Paso 6 (NUEVO): Nginx Proxy Manager -->
+          <section
+            class="bg-white p-6 rounded-xl shadow-lg border border-blue-200 relative overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg shadow"
+            >
+              Paso Final
+            </div>
+            <h3
+              class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2"
+            >
+              <span
+                class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm"
+                >6</span
+              >
+              Exponer con Nginx Proxy Manager
+            </h3>
+            <p class="mb-4 text-gray-600">
+              Configura el proxy inverso para asociar tu dominio a la
+              aplicación, habilitar HTTPS y publicarla al mundo. (el link al
+              administrador de NPM solo funciona desde la red local)
+            </p>
+
+            <a
+              id="npm-link"
+              href="#"
+              target="_blank"
+              class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition mb-6 shadow-md hover:shadow-lg"
+            >
+              Abrir Nginx Proxy Manager
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                ></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                <h4
+                  class="font-bold text-gray-800 mb-3 border-b pb-2 flex items-center gap-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-gray-500"
+                  >
+                    <rect
+                      x="3"
+                      y="3"
+                      width="18"
+                      height="18"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                  </svg>
+                  Pestaña "Details"
+                </h4>
+                <p class="text-xs text-gray-500 mb-3">
+                  Añade un <strong>New Proxy Host</strong> y llena los datos
+                  exactos:
+                </p>
+                <ul class="space-y-3 text-sm text-gray-600">
+                  <li class="flex flex-col">
+                    <span class="font-semibold">Domain Names:</span>
+                    <span
+                      class="dyn-domain bg-gray-200 px-2 py-1 mt-1 inline-block rounded font-mono text-gray-800 break-all border border-gray-300 w-fit"
+                    ></span>
+                  </li>
+                  <li>
+                    <strong>Scheme:</strong>
+                    <code
+                      class="bg-gray-200 px-1 rounded text-gray-800 border border-gray-300"
+                      >http</code
+                    >
+                  </li>
+                  <li class="flex flex-col">
+                    <span class="font-semibold">Forward Hostname / IP:</span>
+                    <span
+                      class="dyn-proj bg-yellow-100 border border-yellow-300 px-2 py-1 mt-1 inline-block rounded font-mono text-yellow-800 font-bold w-fit"
+                    ></span>
+                    <span class="text-xs text-gray-500 italic mt-1"
+                      >(¡Importante! Es el nombre exacto del contenedor)</span
+                    >
+                  </li>
+                  <li class="flex flex-col">
+                    <span class="font-semibold">Forward Port:</span>
+                    <span
+                      class="dyn-port bg-gray-200 px-2 py-1 mt-1 inline-block rounded font-mono text-gray-800 border border-gray-300 w-fit"
+                    ></span>
+                    <span class="text-xs text-gray-500 italic mt-1"
+                      >(Puerto interno de la app, NO el mapeado en host)</span
+                    >
+                  </li>
+                  <li>
+                    <span class="font-semibold">Activar opción:</span>
+                    <code class="bg-gray-100 px-1 rounded text-gray-700"
+                      >Block Common Exploits</code
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                <h4
+                  class="font-bold text-gray-800 mb-3 border-b pb-2 flex items-center gap-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-green-600"
+                  >
+                    <rect
+                      x="3"
+                      y="11"
+                      width="18"
+                      height="11"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  Pestaña "SSL"
+                </h4>
+                <p class="text-xs text-gray-500 mb-3">
+                  Genera el certificado automático (Let's Encrypt ya está
+                  preconfigurado):
+                </p>
+                <ul class="space-y-4 text-sm text-gray-600">
+                  <li>
+                    <span class="font-semibold">SSL Certificate:</span><br />
+                    Selecciona el desplegable y elige: <br /><strong
+                      class="text-gray-800"
+                      >"Request a new SSL Certificate"</strong
+                    >
+                  </li>
+                  <li>
+                    <span class="font-semibold">Activar opción:</span>
+                    <code class="bg-gray-100 px-1 rounded text-gray-700"
+                      >Force SSL</code
+                    >
+                  </li>
+                  <li>
+                    <span class="font-semibold">Activar opción:</span>
+                    <code class="bg-gray-100 px-1 rounded text-gray-700"
+                      >HTTP/2 Support</code
+                    >
+                  </li>
+                  <li
+                    class="bg-green-50 p-3 rounded border border-green-200 text-green-800 text-xs"
+                  >
+                    <strong>Nota:</strong> Tu correo ya está en el sistema, solo
+                    asegúrate de marcar
+                    <em>"I Agree to the Let's Encrypt Terms of Service"</em> y
+                    presiona <strong>Save</strong>.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Paso 7 (NUEVO): Probar App -->
+          <section
+            class="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl shadow-lg border border-green-200 relative overflow-hidden"
+          >
+            <h3
+              class="text-xl font-bold text-green-800 mb-2 flex items-center gap-2"
+            >
+              <span
+                class="bg-green-200 text-green-700 w-8 h-8 rounded-full flex items-center justify-center text-sm shadow-sm"
+                >7</span
+              >
+              ¡Prueba tu Aplicación! 🎉
+            </h3>
+            <p class="mb-5 text-green-700">
+              Si todos los pasos anteriores fueron exitosos y Jenkins terminó la
+              tarea, tu aplicación ya debería estar en línea y protegida con
+              SSL.
+            </p>
+            <a
+              id="app-test-link"
+              href="#"
+              target="_blank"
+              class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg text-base font-bold transition shadow-md hover:shadow-lg"
+            >
+              Visitar <span class="dyn-domain"></span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                ></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </section>
+        </div>
+      </main>
     </div>
 
     <!-- Script de lógica -->
     <script>
-        function handleAliasChange() {
-            const alias = document.getElementById('alias').value;
-            const userInput = document.getElementById('user');
-            
-            if (alias === 'ones') {
-                userInput.value = 'OnesRomero';
-            } else if (alias === 'mariemily') {
-                userInput.value = 'Mariemily';
-            }
-            
-            updateGuide();
+      function handleAliasChange() {
+        const alias = document.getElementById("alias").value;
+        const userInput = document.getElementById("user");
+
+        if (alias === "ones") {
+          userInput.value = "OnesRomero";
+        } else if (alias === "mariemily") {
+          userInput.value = "Mariemily";
         }
 
-        function updateGuide() {
-            const proj = document.getElementById('proj').value || 'mi-nuevo-proyecto';
-            const alias = document.getElementById('alias').value || 'ones';
-            const user = document.getElementById('user').value || 'OnesRomero';
-            const ip = document.getElementById('ip').value || '192.168.1.50';
-            const path = document.getElementById('path').value.replace(/\/$/, "") || '/home/fsadmin';
-            let jenkins = document.getElementById('jenkins').value.replace(/\/$/, "") || 'https://jenkins.foxshortcut.com';
-            
-            // Nuevas variables (Paso 6 NPM)
-            const domain = document.getElementById('domain').value || 'app.midominio.com';
-            const port = document.getElementById('port').value || '3000';
+        updateGuide();
+      }
 
-            // Actualizar Docker Compose para resaltar el nombre del contenedor y el puerto interno
-            const dockerComposeCode = `services:
+      function updateGuide() {
+        const proj =
+          document.getElementById("proj").value || "mi-nuevo-proyecto";
+        const alias = document.getElementById("alias").value || "ones";
+        const user = document.getElementById("user").value || "OnesRomero";
+        const ip = document.getElementById("ip").value || "192.168.1.50";
+        const path =
+          document.getElementById("path").value.replace(/\/$/, "") ||
+          "/home/fsadmin";
+        let jenkins =
+          document.getElementById("jenkins").value.replace(/\/$/, "") ||
+          "https://jenkins.foxshortcut.com";
+
+        // Nuevas variables (Paso 6 NPM)
+        const domain =
+          document.getElementById("domain").value || "app.midominio.com";
+        const port = document.getElementById("port").value || "3000";
+
+        // Actualizar Docker Compose para resaltar el nombre del contenedor y el puerto interno
+        const dockerComposeCode = `services:
   app:
     build: .
     container_name: <span class="dyn-proj text-yellow-300 font-bold bg-gray-700 px-1 rounded">${proj}</span> # <- Usar en NPM
@@ -410,10 +1025,11 @@ networks:
   red_app:
     driver: bridge
     external: true`;
-            document.getElementById('code-dockercompose').innerHTML = dockerComposeCode;
+        document.getElementById("code-dockercompose").innerHTML =
+          dockerComposeCode;
 
-            // Archivo Jenkinsfile
-            const jenkinsfileCode = `pipeline {
+        // Archivo Jenkinsfile
+        const jenkinsfileCode = `pipeline {
     agent any
     environment {
         HOST_IP = '${ip}'
@@ -433,77 +1049,102 @@ networks:
         }
     }
 }`;
-            document.getElementById('code-jenkinsfile').textContent = jenkinsfileCode;
-            document.getElementById('code-webhook').textContent = `${jenkins}/github-webhook/`;
+        document.getElementById("code-jenkinsfile").textContent =
+          jenkinsfileCode;
+        document.getElementById("code-webhook").textContent =
+          `${jenkins}/github-webhook/`;
 
-            // Pasos separados para el área 3
-            document.getElementById('code-ssh').textContent = `ssh fsadmin@${ip}`;
-            document.getElementById('code-cd-base').textContent = `cd ${path}`;
-            document.getElementById('code-git-clone').textContent = `git clone git@${alias}:${user}/${proj}.git`;
-            document.getElementById('code-cd-proj').textContent = `cd ${proj}`;
+        // Pasos separados para el área 3
+        document.getElementById("code-ssh").textContent = `ssh fsadmin@${ip}`;
+        document.getElementById("code-cd-base").textContent = `cd ${path}`;
+        document.getElementById("code-git-clone").textContent =
+          `git clone git@${alias}:${user}/${proj}.git`;
+        document.getElementById("code-cd-proj").textContent = `cd ${proj}`;
 
-            // URLs Git
-            document.getElementById('code-repo-web').textContent = `https://github.com/${user}/${proj}/`;
-            document.getElementById('code-repo-git').textContent = `https://github.com/${user}/${proj}.git`;
+        // URLs Git
+        document.getElementById("code-repo-web").textContent =
+          `https://github.com/${user}/${proj}/`;
+        document.getElementById("code-repo-git").textContent =
+          `https://github.com/${user}/${proj}.git`;
 
-            // Actualizar Enlace de Nginx Proxy Manager
-            document.getElementById('npm-link').href = `http://${ip}:81/`;
+        // Actualizar Enlace de Nginx Proxy Manager
+        document.getElementById("npm-link").href = `http://${ip}:81/`;
 
-            // Actualizar nuevos enlaces dinámicos
-            document.getElementById('github-link').href = `https://github.com/${user}/${proj}`;
-            document.getElementById('jenkins-link-btn').href = `${jenkins}/`;
-            document.getElementById('app-test-link').href = `https://${domain}/`;
+        // Actualizar nuevos enlaces dinámicos
+        document.getElementById("github-link").href =
+          `https://github.com/${user}/${proj}`;
+        document.getElementById("jenkins-link-btn").href = `${jenkins}/`;
+        document.getElementById("app-test-link").href = `https://${domain}/`;
 
-            // Reemplazar textos dinámicos
-            document.querySelectorAll('.dyn-proj').forEach(el => el.textContent = proj);
-            document.querySelectorAll('.dyn-user').forEach(el => el.textContent = user);
-            document.querySelectorAll('.dyn-alias').forEach(el => el.textContent = alias);
-            document.querySelectorAll('.dyn-domain').forEach(el => el.textContent = domain);
-            document.querySelectorAll('.dyn-port').forEach(el => el.textContent = port);
+        // Reemplazar textos dinámicos
+        document
+          .querySelectorAll(".dyn-proj")
+          .forEach((el) => (el.textContent = proj));
+        document
+          .querySelectorAll(".dyn-user")
+          .forEach((el) => (el.textContent = user));
+        document
+          .querySelectorAll(".dyn-alias")
+          .forEach((el) => (el.textContent = alias));
+        document
+          .querySelectorAll(".dyn-domain")
+          .forEach((el) => (el.textContent = domain));
+        document
+          .querySelectorAll(".dyn-port")
+          .forEach((el) => (el.textContent = port));
+      }
+
+      function copyCode(elementId, btnElement) {
+        const textToCopy = document.getElementById(elementId).innerText; // Usamos innerText para no copiar las etiquetas HTML añadidas en el resalte del docker-compose
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard
+            .writeText(textToCopy)
+            .then(() => showCopied(btnElement));
+        } else {
+          const textArea = document.createElement("textarea");
+          textArea.value = textToCopy;
+          document.body.appendChild(textArea);
+          textArea.select();
+          try {
+            document.execCommand("copy");
+            showCopied(btnElement);
+          } catch (err) {
+            console.error("Error al copiar", err);
+          }
+          document.body.removeChild(textArea);
         }
+      }
 
-        function copyCode(elementId, btnElement) {
-            const textToCopy = document.getElementById(elementId).innerText; // Usamos innerText para no copiar las etiquetas HTML añadidas en el resalte del docker-compose
-            
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(textToCopy).then(() => showCopied(btnElement));
-            } else {
-                const textArea = document.createElement("textarea");
-                textArea.value = textToCopy;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    showCopied(btnElement);
-                } catch (err) {
-                    console.error('Error al copiar', err);
-                }
-                document.body.removeChild(textArea);
-            }
-        }
+      function showCopied(btnElement) {
+        const originalHTML = btnElement.innerHTML;
+        btnElement.innerHTML = `Copiado!`;
 
-        function showCopied(btnElement) {
-            const originalHTML = btnElement.innerHTML;
-            btnElement.innerHTML = `Copiado!`;
-            
-            // Forzar clases temporales de color verde
-            btnElement.classList.add('bg-green-500', 'text-white');
-            btnElement.classList.remove('bg-gray-700', 'bg-gray-200', 'text-gray-700');
-            
-            setTimeout(() => {
-                btnElement.innerHTML = originalHTML;
-                btnElement.classList.remove('bg-green-500', 'text-white');
-                
-                // Restaurar color original basado en si el botón es oscuro (código) o claro (URL)
-                if(btnElement.closest('pre') && btnElement.closest('pre').classList.contains('bg-gray-800')) {
-                    btnElement.classList.add('bg-gray-700', 'text-white');
-                } else {
-                    btnElement.classList.add('bg-gray-200', 'text-gray-700');
-                }
-            }, 2000);
-        }
+        // Forzar clases temporales de color verde
+        btnElement.classList.add("bg-green-500", "text-white");
+        btnElement.classList.remove(
+          "bg-gray-700",
+          "bg-gray-200",
+          "text-gray-700",
+        );
 
-        window.onload = updateGuide;
+        setTimeout(() => {
+          btnElement.innerHTML = originalHTML;
+          btnElement.classList.remove("bg-green-500", "text-white");
+
+          // Restaurar color original basado en si el botón es oscuro (código) o claro (URL)
+          if (
+            btnElement.closest("pre") &&
+            btnElement.closest("pre").classList.contains("bg-gray-800")
+          ) {
+            btnElement.classList.add("bg-gray-700", "text-white");
+          } else {
+            btnElement.classList.add("bg-gray-200", "text-gray-700");
+          }
+        }, 2000);
+      }
+
+      window.onload = updateGuide;
     </script>
-</body>
+  </body>
 </html>
