@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor MD / HTML - FoxShortcut</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f9fafb; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+        .code-block-enter { transition: all 0.3s ease; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 h-screen flex flex-col overflow-hidden">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm z-10">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <svg class="h-8 w-8 text-orange-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                <span class="text-xl font-bold text-gray-700">FoxShortcut <span class="hidden sm:inline text-gray-400 font-normal ml-1">|</span> <span class="text-orange-500 hidden sm:inline ml-1">Visor MD / HTML</span></span>
+            </div>
+
+            <a href="/" class="text-sm font-bold bg-orange-500 text-white hover:bg-orange-600 px-5 py-2 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                Inicio
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex-1 container mx-auto flex flex-col md:flex-row overflow-hidden">
+
+        <!-- Panel Izquierdo: Editor -->
+        <aside class="w-full md:w-1/2 lg:w-1/2 bg-white border-r border-gray-200 flex flex-col overflow-hidden shadow-sm z-0">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                <div>
+                    <h2 class="text-lg font-bold text-gray-800">Código Fuente</h2>
+                    <p class="text-xs text-gray-500 mt-1">Pega tu Markdown o HTML para previsualizar.</p>
+                </div>
+                <div class="flex gap-2">
+                    <label class="flex items-center gap-1.5 text-xs font-medium text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 cursor-pointer hover:border-orange-300 transition">
+                        <input type="radio" name="type" value="md" checked class="text-orange-600 focus:ring-orange-500"> MD
+                    </label>
+                    <label class="flex items-center gap-1.5 text-xs font-medium text-gray-600 bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 cursor-pointer hover:border-orange-300 transition">
+                        <input type="radio" name="type" value="html" class="text-orange-600 focus:ring-orange-500"> HTML
+                    </label>
+                </div>
+            </div>
+
+            <div class="p-6 flex-1 overflow-y-auto">
+                <textarea id="input" class="w-full h-full min-h-[300px] p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition font-mono text-sm bg-gray-50 resize-none shadow-inner" placeholder="Pega tu contenido Markdown o HTML aquí..."></textarea>
+            </div>
+
+            <div class="p-6 bg-gray-50 border-t border-gray-200">
+                <button id="resetBtn" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2.5 px-4 rounded-lg transition duration-200 shadow flex justify-center items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    Limpiar todo
+                </button>
+            </div>
+        </aside>
+
+        <!-- Panel Derecho: Vista Previa -->
+        <main class="w-full md:w-1/2 lg:w-1/2 bg-gray-50 p-6 md:p-8 overflow-y-auto relative">
+            <div class="max-w-4xl mx-auto mb-6">
+                <h2 class="text-2xl font-extrabold text-gray-900 mb-1">Vista Previa</h2>
+                <p class="text-gray-600 text-sm">Resultado renderizado en tiempo real.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm border border-gray-200 p-8 min-h-[400px]">
+                <div id="preview" class="prose prose-gray max-w-none">
+                    <p class="text-gray-400 text-center py-20">El contenido aparecerá aquí</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <style>
+        .prose h1 { font-size: 2rem; font-weight: 800; color: #111827; margin: 1.5rem 0 1rem; border-bottom: 2px solid #f97316; padding-bottom: 0.3em; }
+        .prose h2 { font-size: 1.5rem; font-weight: 700; color: #111827; margin: 1.25rem 0 0.75rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.2em; }
+        .prose h3 { font-size: 1.2rem; font-weight: 600; color: #1f2937; margin: 1rem 0 0.5rem; }
+        .prose p { margin: 0.75rem 0; line-height: 1.7; color: #374151; }
+        .prose code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 0.875em; color: #ea580c; }
+        .prose pre { background: #1f2937; color: #e5e7eb; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+        .prose pre code { background: none; padding: 0; color: inherit; }
+        .prose blockquote { border-left: 4px solid #f97316; padding-left: 16px; margin: 1rem 0; color: #6b7280; font-style: italic; }
+        .prose a { color: #f97316; text-decoration: underline; }
+        .prose a:hover { color: #ea580c; }
+        .prose ul, .prose ol { margin: 0.75rem 0; padding-left: 24px; color: #374151; }
+        .prose li { margin: 0.3rem 0; }
+        .prose table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+        .prose th, .prose td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+        .prose th { background: #f9fafb; font-weight: 600; }
+        .prose img { max-width: 100%; border-radius: 8px; }
+        .prose hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
+    </style>
+
+    <script>
+        const input = document.getElementById('input');
+        const preview = document.getElementById('preview');
+        const radios = document.querySelectorAll('input[name="type"]');
+
+        function render() {
+            const type = document.querySelector('input[name="type"]:checked').value;
+            const content = input.value;
+
+            if (!content.trim()) {
+                preview.innerHTML = '<p class="text-gray-400 text-center py-20">El contenido aparecerá aquí</p>';
+                return;
+            }
+
+            if (type === 'md') {
+                preview.innerHTML = marked.parse(content);
+            } else {
+                preview.innerHTML = content;
+            }
+        }
+
+        radios.forEach(r => r.addEventListener('change', render));
+        input.addEventListener('input', render);
+
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            input.value = '';
+            render();
+            input.focus();
+        });
+
+        render();
+    </script>
+</body>
+</html>
