@@ -112,9 +112,6 @@
         .prose th { background: #f9fafb; font-weight: 600; }
         .prose img { max-width: 100%; border-radius: 8px; }
         .prose hr { border: none; border-top: 2px solid #e5e7eb; margin: 2rem 0; }
-        .prose.hide-newlines p { white-space: pre-wrap; }
-        .prose.hide-newlines p::after { content: none; }
-        .prose.hide-newlines br { display: none; }
     </style>
 
     <script>
@@ -126,11 +123,16 @@
 
         function render() {
             const type = document.querySelector('input[name="type"]:checked').value;
-            const content = input.value;
+            let content = input.value;
 
             if (!content.trim()) {
                 preview.innerHTML = '<p class="text-gray-400 text-center py-20">El contenido aparecerá aquí</p>';
                 return;
+            }
+
+            // Hide literal \n in rendered output if checkbox is unchecked
+            if (!hideNewlinesCheckbox.checked) {
+                content = content.replace(/\\n/g, '');
             }
 
             if (type === 'md') {
@@ -138,28 +140,15 @@
             } else {
                 preview.innerHTML = content;
             }
-
-            // Apply newline hiding if checkbox is checked
-            if (hideNewlinesCheckbox.checked) {
-                preview.classList.add('hide-newlines');
-            } else {
-                preview.classList.remove('hide-newlines');
-            }
         }
 
         radios.forEach(r => r.addEventListener('change', render));
         input.addEventListener('input', render);
 
-        hideNewlinesCheckbox.addEventListener('change', () => {
-            if (hideNewlinesCheckbox.checked) {
-                preview.classList.add('hide-newlines');
-            } else {
-                preview.classList.remove('hide-newlines');
-            }
-        });
+        hideNewlinesCheckbox.addEventListener('change', render);
 
         removeNewlinesBtn.addEventListener('click', () => {
-            input.value = input.value.replace(/\n/g, '');
+            input.value = input.value.replace(/\\n/g, '');
             render();
             input.focus();
         });
