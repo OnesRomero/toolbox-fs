@@ -130,8 +130,8 @@
                 return;
             }
 
-            // Hide literal \n in rendered output if checkbox is unchecked
-            if (!hideNewlinesCheckbox.checked) {
+            // Hide literal \n in rendered output if checkbox is checked
+            if (hideNewlinesCheckbox.checked) {
                 content = content.replace(/\\n/g, '');
             }
 
